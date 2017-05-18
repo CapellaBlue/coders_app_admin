@@ -9,6 +9,7 @@ app.controller('mainController', ['$http', function($http){
   this.postFormData = {};
   this.postInd = -1;
   this.viewOnePost = false;
+  this.currentPostInd = -1;
   this.editPostMode = false;
 
   // GET All Posts
@@ -40,6 +41,7 @@ app.controller('mainController', ['$http', function($http){
       console.log(response.data.comments);
       this.postComments = response.data.comments;
       this.viewOnePost = true;
+      this.currentPostInd = ind;
     }.bind(this));
   };
 
@@ -88,11 +90,25 @@ app.controller('mainController', ['$http', function($http){
     }.bind(this));
   }
 
+  // Delete a post and all its Comments
+  this.deletePost = function(ind){
+    var tempId = this.posts[ind].id;
+    $http({
+      method: 'DELETE',
+      url: 'http://localhost:3000/posts/'+tempId
+    }).then(function(){
+      this.posts.splice(ind,1);
+      this.viewAllPosts();
+    }.bind(this));
+  };
+
+
   // Back to view all posts
   this.viewAllPosts = function(){
     this.postFormData = {};
     this.postInd = -1;
     this.viewOnePost = false;
+    this.currentPostInd = -1;
     this.editPostMode = false;
   }
 

@@ -68,6 +68,8 @@
           <h3>{{ctrl.viewPost.title}}</h3>
           <p>{{ctrl.viewPost.content}}</p>
           <small>By {{ctrl.viewPost.author}}</small>
+          <button ng-click="ctrl.deletePost(ctrl.currentPostInd)">DELETE</button> * Will delete all comments too.
+
         </div>
         <!-- Comments part -->
         <div ng-repeat="comment in ctrl.postComments" class="row">
