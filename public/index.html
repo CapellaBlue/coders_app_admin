@@ -75,6 +75,7 @@
         <div ng-repeat="comment in ctrl.postComments" class="row">
           <p>{{comment.text}}</p>
           <small>By {{comment.author}}</small>
+          <button ng-click="ctrl.deleteComment($index)"></button>
         </div>
       </section>
 
