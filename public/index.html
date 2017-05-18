@@ -2,20 +2,47 @@
 <html ng-app='boardAdmin'>
   <head>
     <meta charset="utf-8">
-    <title>Admin</title>
+    <title>Board Admin</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
+
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/skeleton.css">
+    <link rel="stylesheet" href="./css/main.css">
+
   </head>
   <body ng-controller="mainController as ctrl">
-    <h1>Hello Admin</h1>
 
-    <section ng-include="'partials/login.html'" ng-hide="ctrl.loggedIn"></section>
+    <nav>
+      <h1>Hello Admin</h1>
+    </hav>
 
-    
-    <div ng-repeat="post in ctrl.posts" class="posts col-sm-6 col-md-8">
-      <h5 ng-click="ctrl.showPostComments(post.id, $index)">{{post.title}}</h5>
-      <!-- <p>{{post.content}}</p> -->
-      <small>By {{post.author}}</small>
-    </div>
+    <main class="container">
+
+      <section ng-hide="ctrl.loggedIn">
+        Username <input type="text" placeholder="USERNAME">
+        Password <input type="text" placeholder="PASSWORD">
+
+        <button type="button" ng-click="ctrl.getAllPosts()">Login</button>
+      </section>
+
+      <section ng-hide="ctrl.viewOnePost">
+        <div ng-repeat="post in ctrl.posts" class="posts col-sm-6 col-md-8">
+          <h5 ng-click="ctrl.showPostComments(post.id, $index)">{{post.title}}</h5>
+          <!-- <p>{{post.content}}</p> -->
+          <small>By {{post.author}}</small>
+        </div>
+      </section>
+
+      <section ng-show="ctrl.viewOnePost">
+      </section>
+
+    </main>
+
+    <footer>
+
+
+    </footer>
+
   </body>
 </html>
