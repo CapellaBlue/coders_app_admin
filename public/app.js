@@ -29,32 +29,21 @@ app.controller('mainController', ['$http', function($http){
         },
         url: 'http://localhost:3000/posts'
     }).then(function(response){
-        console.log(response.data);
+        //console.log(response.data);
         for (var i = 0; i < response.data.length; i++) {
           var aff = response.data[i].political_affiliation;
 
-          response.data[i].political_affiliation = this.assignPolAff(aff) ;
-          // if(aff == "Hard Right"){
-          //     response.data[i].political_affiliation = "hard-right";
-          // } else if(aff == "Soft Right"){
-          //     response.data[i].political_affiliation = "soft-right";
-          // } else if(aff == "Hard Left"){
-          //     response.data[i].political_affiliation = "hard-left";
-          // } else if(aff == "Soft Left"){
-          //     response.data[i].political_affiliation = "soft-left";
-          // } else if(aff == "Centrist"){
-          //     response.data[i].political_affiliation = "centrist";
-          // } else if(aff == "Independent"){
-          //     response.data[i].political_affiliation = "independent";
-          // };
+          response.data[i].political_affiliation_c = this.assignPolAff(aff) ;
         }
         this.posts = response.data;
+        console.log("All posts: ",this.posts);
     }.bind(this));
   }
 
   // See one Post and its Comments
   this.showPostComments = function(post_id, ind){
     this.viewPost = this.posts[ind];
+    console.log("View Post: ", this.viewPost);
     $http({
         method: 'GET',
         headers: {
@@ -62,7 +51,11 @@ app.controller('mainController', ['$http', function($http){
         },
         url: 'http://localhost:3000/posts/'+post_id
     }).then(function(response){
-      console.log(response.data.comments);
+      console.log("View Post Comments: ",response.data.comments);
+      for (var i = 0; i < response.data.comments.length; i++) {
+        var aff = response.data.comments[i].political_affiliation;
+        response.data.comments[i].political_affiliation_c = this.assignPolAff(aff) ;
+      }      
       this.postComments = response.data.comments;
       this.viewOnePost = true;
       this.currentPostInd = ind;
@@ -78,8 +71,8 @@ app.controller('mainController', ['$http', function($http){
       data: this.postFormData
     }).then(function(result){
       console.log('Data from server: ', result.data);
-      var aff = response.data.political_affiliation;
-      response.data.political_affiliation = this.assignPolAff(aff) ;
+      var aff = result.data.political_affiliation;
+      result.data.political_affiliation_c = this.assignPolAff(aff) ;
       this.postFormData = {};
       this.posts.unshift(result.data);
     }.bind(this));
@@ -91,6 +84,7 @@ app.controller('mainController', ['$http', function($http){
     this.postFormData.title = this.posts[ind].title;
     this.postFormData.content = this.posts[ind].content;
     this.postFormData.author = this.posts[ind].author;
+    this.postFormData.political_affiliation = this.posts[ind].political_affiliation
     this.postInd = ind;
   }
 
@@ -110,6 +104,8 @@ app.controller('mainController', ['$http', function($http){
       data: this.postFormData
     }).then(function(result){
       console.log('Post updated from server: ', result.data);
+      var aff = result.data.political_affiliation;
+      result.data.political_affiliation_c = this.assignPolAff(aff) ;
       this.editPostMode = false;
       this.postFormData = {};
       this.posts.splice(ind, 1, result.data);

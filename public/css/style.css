@@ -44,19 +44,33 @@ main {
 }
 
 .single-post {
+    width: 90%;
     padding: 5px 1em;
     /*padding-top: 5px;
     padding-bottom: 5px;*/
     border-top: .3px solid darkgray;
     margin-bottom: 5px;
     display: flex;
-    align-items: baseline;
+    /*align-items: baseline;*/
+    align-items: center;
     justify-content: space-between;
 }
 
 .single-post > * {
   flex-direction: column;
   color: black;
+}
+
+.onePost {
+  /*background: lightgray;*/
+  margin: 1em;
+  padding: 5px 1em 10px 1em;
+}
+
+.oneComment {
+  background: lightgray;
+  margin: 1px;
+  padding: 5px 1em 5px 1em;
 }
 
 .hard-right {
@@ -81,17 +95,6 @@ main {
   cursor: pointer;
 }
 
-.onePost {
-  background: lightgray;
-  margin: 1em;
-  padding: 5px 1em 10px 1em;
-}
-
-.oneComment {
-  background: lightgray;
-  margin: 1px;
-  padding: 5px 1em 5px 1em;
-}
 .longField {
   width: 600px;
 }
@@ -102,4 +105,8 @@ main {
     border-bottom: .3px solid darkgray;
     padding: 4px;
     margin: 0 2px;
+}
+
+button {
+  border-radius: 5px;
 }

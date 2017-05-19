@@ -54,7 +54,7 @@
       <!-- Left side div show all posts -->
       <div class="posts col-xs-7 col-sm-7 col-md-7 col-lg-7">
         <!--  Repeat show all Posts div -->
-        <div ng-repeat="post in ctrl.posts" class="{{post.political_affiliation}} single-post">
+        <div ng-repeat="post in ctrl.posts" class="{{post.political_affiliation_c}} single-post">
           <h3 ng-click="ctrl.showPostComments(post.id, $index)" class="editLink">{{post.title}}
            - <small>By {{post.author}}</small></h3>
           <button ng-click="ctrl.editPost($index)">Edit</button>
@@ -69,10 +69,11 @@
           <input ng-model="ctrl.postFormData.title" type="text" placeholder="Title" value="ctrl.postFormData.title">
           <textarea rows="6" ng-model="ctrl.postFormData.content" placeholder="Content">{{ctrl.postFormData.content}}</textarea>
           <input ng-model="ctrl.postFormData.author" type="text" placeholder="Author" value="ctrl.postFormData.author">
-          <select ng-model="ctrl.postFormData.political_affiliation" ng-options="x for x in ctrl.affiliation"></select>
+          <select ng-model="ctrl.postFormData.political_affiliation">
+            <option ng-repeat="x in ctrl.affiliation" value="{{x}}">{{x}}</option>
+            </select>
           <br/>
           <button ng-click="ctrl.createPost()" ng-hide="ctrl.editPostMode">Create New Post</button>
-          <br/>
           <button ng-click="ctrl.updatePost(ctrl.postInd)" ng-show="ctrl.editPostMode">Update Post</button>
           <button ng-click="ctrl.cancelEditPost()" ng-show="ctrl.editPostMode">Cancel</button>
         </form>
@@ -88,17 +89,17 @@
     <!-- Delete particular Comments.  -->
     <div ng-show="ctrl.viewOnePost" class="row">
       <!-- Post part -->
-      <div class="col-sm-12 onePost">
-        <h3>{{ctrl.viewPost.title}}</h3>
-        <p>{{ctrl.viewPost.content}}</p>
-        <p>By {{ctrl.viewPost.author}}</p>
+      <div class="posts col-sm-12 onePost {{ctrl.viewPost.political_affiliation_c}}">
+          <h3>{{ctrl.viewPost.title}}</h3>
+          <p>{{ctrl.viewPost.content}}</p>
+          <p>By {{ctrl.viewPost.author}}</p>
         <br/>
         <button ng-click="ctrl.deletePost(ctrl.currentPostInd)">DELETE</button> * Delete a Post will delete all the comments too.
       </div>
       <!-- Comments part -->
-      <div class="single-post col-sm-12" ng-repeat="comment in ctrl.postComments">
+      <div ng-repeat="comment in ctrl.postComments" class="posts single-post col-sm-12 {{comment.political_affiliation_c}}" >
         <p>{{comment.text}}<br/>
-         - By {{comment.author}}</p>
+        - By {{comment.author}}</p>
         <button ng-click="ctrl.deleteComment($index)">Delete</button>
       </div>
     </div>
@@ -107,7 +108,7 @@
     <!-- Part III -->
     <!-- ************ -->
     <!-- Daily Topics Form -->
-    <div id="dailyTopic" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="ctrl.dailyTopicMode">
+    <div id="dailyTopic" class="posts col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="ctrl.dailyTopicMode">
         <h3>Daily Topic</h3>
         <form ng-submit="ctrl.createNewTopic()">
           <input type="text" ng-model="ctrl.dailyTopicContent.content" placeholder="Daily Topic" class="longField">
@@ -115,7 +116,7 @@
         </form>
 
         <br/>
-        <div ng-repeat="topic in ctrl.dailyTopics">
+        <div ng-repeat="topic in ctrl.dailyTopics" class="posts">
           <p><span ng-bind="topic.updated_at | date:'MM/dd/yyyy'">{{topic.updated_at}}</span> - {{topic.content}}</p>
         </div>
 
