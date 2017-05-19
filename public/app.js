@@ -55,7 +55,7 @@ app.controller('mainController', ['$http', function($http){
       for (var i = 0; i < response.data.comments.length; i++) {
         var aff = response.data.comments[i].political_affiliation;
         response.data.comments[i].political_affiliation_c = this.assignPolAff(aff) ;
-      }      
+      }
       this.postComments = response.data.comments;
       this.viewOnePost = true;
       this.currentPostInd = ind;
@@ -193,6 +193,15 @@ app.controller('mainController', ['$http', function($http){
   // Fake Log off
   this.logOff = function(){
     this.loggedIn = false;
-    this.posts = [];
+    this.postFormData = {};
+    this.postInd = -1;
+    this.viewOnePost = false;
+    this.currentPostInd = -1;
+    this.viewPost = {}
+    this.postComments = [];
+    this.editPostMode = false;
+    this.dailyTopicMode = false
+    this.dailyTopics = [];
+    this.dailyTopicContent = {};
   }
 }]);
