@@ -6,23 +6,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/normalize.css">
-    <link rel="stylesheet" href="./css/skeleton.css">
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/style.css">
 
   </head>
   <body ng-controller="mainController as ctrl">
 
-    <nav>
-      <h1>Hello Admin</h1>
-      <section ng-show="ctrl.loggedIn">
-        <ul>
-
-          <li ng-show="ctrl.viewOnePost" ng-click="ctrl.viewAllPosts()">Posts</li>
-          <li ng-click="ctrl.toDailyTopic()">Daily Topics</li>
-          <li ng-click="ctrl.logOff()">Log Off</li>
-        </ul>
-      </section>
+    <nav class="navbar navbar-defaul">
+    <div class="container-fluid">
+      <div class="nav navbar-nav navbar-left">
+        <h1>Board Admin</h1>
+      </div>
+      <div class="nav navbar-nav navbar-right">
+        <section ng-show="ctrl.loggedIn">
+          <ul class="nav navbar-nav">
+            <li ng-show="ctrl.viewOnePost" ng-click="ctrl.viewAllPosts()">Posts</li>
+            <li ng-click="ctrl.toDailyTopic()">Daily Topics</li>
+            <li ng-click="ctrl.logOff()">Log Off</li>
+          </ul>
+        </section>
+      </div>
+    </div>
     </hav>
 
     <main class="container">
@@ -41,7 +46,7 @@
         <div class=""  ng-show="ctrl.loggedIn">
           <form class="">
           <input ng-model="ctrl.postFormData.title" type="text" placeholder="Title" value="ctrl.postFormData.title">
-          <textarea class="form-control" rows="3" ng-model="ctrl.postFormData.content" placeholder="Content">{{ctrl.postFormData.content}}</textarea>
+          <textarea rows="3" ng-model="ctrl.postFormData.content" placeholder="Content">{{ctrl.postFormData.content}}</textarea>
           <input ng-model="ctrl.postFormData.author" type="text" placeholder="Author" value="ctrl.postFormData.author">
           <button ng-click="ctrl.createPost()" ng-hide="ctrl.editPostMode">Create New Post</button>
           <button ng-click="ctrl.updatePost(ctrl.postInd)" ng-show="ctrl.editPostMode">Update Post</button>
@@ -52,7 +57,7 @@
 
         <!--  All Posts div -->
         <div ng-repeat="post in ctrl.posts" class="posts col-sm-6 col-md-8">
-          <h3 ng-click="ctrl.showPostComments(post.id, $index)">{{post.title}}</h3>
+          <h3 ng-click="ctrl.showPostComments(post.id, $index)" class="editLink">{{post.title}}</h3>
           <!-- <p>{{post.content}}</p> -->
           <small>By {{post.author}}</small>
           <button ng-click="ctrl.editPost($index)">Edit</button>

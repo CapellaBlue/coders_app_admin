@@ -1,0 +1,20 @@
+body {
+  padding: 0 1em;
+}
+
+li {
+  margin: 1em;
+}
+li:hover {
+  cursor: pointer;
+}
+
+nav, main {
+  width: 80%;
+  /*text-align: center;*/
+  padding: 0 2em;
+}
+
+.editLink:hover {
+  cursor: pointer;
+}
