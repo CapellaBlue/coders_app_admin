@@ -92,3 +92,14 @@ main {
   margin: 1px;
   padding: 5px 1em 5px 1em;
 }
+.longField {
+  width: 600px;
+}
+
+.form-horizontal {
+    background : #EEEEEE;
+    border-top: .3px solid darkgray;
+    border-bottom: .3px solid darkgray;
+    padding: 4px;
+    margin: 0 2px;
+}
