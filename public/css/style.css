@@ -1,5 +1,20 @@
+/** {
+  border: 2px solid black;
+}*/
 body {
-  padding: 0 1em;
+  /*background: #371718;*/
+  font-size: 2em;
+  /*color: black;*/
+}
+
+#header {
+  background: #171837;
+  width: 100%;
+  padding: 0 2em;
+  color: #00ccff;
+}
+#header > div {
+  padding: 0 2em;
 }
 
 li {
@@ -9,12 +24,47 @@ li:hover {
   cursor: pointer;
 }
 
-nav, main {
+main {
+
   width: 80%;
   /*text-align: center;*/
-  padding: 0 2em;
+  margin: 0 2em;
 }
 
 .editLink:hover {
   cursor: pointer;
+}
+.posts {
+    background : #EEEEEE;
+    /*border-radius: 5px;*/
+    /*padding-top: 5px;
+    padding-bottom: 5px;*/
+    border-top: .3px solid darkgray;
+    margin-left: 5%;
+}
+
+.single-post {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-top: .3px solid darkgray;
+    margin-bottom: 5px;
+}
+
+.hard-right {
+    background: #B22234;
+}
+.soft-left {
+    background: #A9B7C0;
+}
+.soft-right {
+    background: #D27E87;
+}
+.hard-left {
+    background: #3C3B6E;
+}
+.centrist {
+    background: #785d90;
+}
+.independent {
+    background: #9c8914;
 }

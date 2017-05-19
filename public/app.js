@@ -26,6 +26,23 @@ app.controller('mainController', ['$http', function($http){
         url: 'http://localhost:3000/posts'
     }).then(function(response){
         console.log(response.data);
+        for (var i = 0; i < response.data.length; i++) {
+          var aff = response.data[i].political_affiliation;
+
+          if(aff == "Hard Right"){
+              response.data[i].political_affiliation = "hard-right";
+          } else if(aff == "Soft Right"){
+              response.data[i].political_affiliation = "soft-right";
+          } else if(aff == "Hard Left"){
+              response.data[i].political_affiliation = "hard-left";
+          } else if(aff == "Soft Left"){
+              response.data[i].political_affiliation = "soft-left";
+          } else if(aff == "Centrist"){
+              response.data[i].political_affiliation = "centrist";
+          } else if(aff == "Independent"){
+              response.data[i].political_affiliation = "independent";
+          };
+        }
         this.posts = response.data;
     }.bind(this));
   }
