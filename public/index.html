@@ -11,91 +11,127 @@
     <link rel="stylesheet" href="./css/style.css">
 
   </head>
+
   <body ng-controller="mainController as ctrl">
 
-    <nav class="navbar navbar-defaul">
-    <div class="container-fluid">
-      <div class="nav navbar-nav navbar-left">
-        <h1>Board Admin</h1>
-      </div>
-      <div class="nav navbar-nav navbar-right">
-        <section ng-show="ctrl.loggedIn">
-          <ul class="nav navbar-nav">
-            <li ng-show="ctrl.viewOnePost" ng-click="ctrl.viewAllPosts()">Posts</li>
-            <li ng-click="ctrl.toDailyTopic()">Daily Topics</li>
-            <li ng-click="ctrl.logOff()">Log Off</li>
-          </ul>
-        </section>
-      </div>
+  <!-- Header div -->
+  <div id="header" class="navbar navbar-defaul">
+    <div class="nav navbar-nav navbar-left">
+      <h1>Board Admin</h1>
     </div>
-    </hav>
-
-    <main class="container">
-
-      <!--  Fake Login Section -->
-      <section ng-hide="ctrl.loggedIn">
-        Username <input type="text" placeholder="USERNAME">
-        Password <input type="text" placeholder="PASSWORD">
-
-        <button type="button" ng-click="ctrl.getAllPosts()">Login</button>
+    <div class="nav navbar-nav navbar-right">
+      <section ng-show="ctrl.loggedIn">
+        <ul class="nav navbar-nav">
+          <li ng-click="ctrl.viewAllPosts()">Posts</li>
+          <li ng-click="ctrl.toDailyTopic()">Daily Topics</li>
+          <li ng-click="ctrl.logOff()">Log Off</li>
+        </ul>
       </section>
+    </div>
+  </div>
 
-      <!--  View all Posts Section, and New Post Form and Update posts -->
-      <section ng-hide="ctrl.viewOnePost">
+  <!-- Main div -->
+  <div class="container">
 
-        <div class=""  ng-show="ctrl.loggedIn">
-          <form class="">
+    <!--  Fake Login Section -->
+    <div ng-hide="ctrl.loggedIn" id="login">
+
+      Username <input type="text" placeholder="USERNAME">
+      Password <input type="text" placeholder="PASSWORD">
+      <button type="button" ng-click="ctrl.getAllPosts()">Login</button>
+    </div>
+
+    <!-- major display div after login -->
+    <div ng-show="ctrl.loggedIn">
+
+    <!-- ************ -->
+    <!-- Part I -->
+    <!-- ************ -->
+    <!--  View all Posts Section, and New Post Form and Update posts -->
+
+    <div class="row" ng-hide="ctrl.viewOnePost || ctrl.dailyTopicMode">
+
+      <!-- Left side div show all posts -->
+      <div class="posts col-xs-7 col-sm-7 col-md-7 col-lg-7">
+        <!--  Repeat show all Posts div -->
+        <div ng-repeat="post in ctrl.posts" class="{{post.political_affiliation_c}} single-post">
+          <h3 ng-click="ctrl.showPostComments(post.id, $index)" class="editLink">{{post.title}}
+           - <small>By {{post.author}}</small></h3>
+          <button ng-click="ctrl.editPost($index)">Edit</button>
+          <!-- <p>{{post.content}}</p> -->
+        </div>
+      </div>
+
+      <!-- Right side div show create new post form -->
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+        <form class="form-horizontal">
           <input ng-model="ctrl.postFormData.title" type="text" placeholder="Title" value="ctrl.postFormData.title">
-          <textarea rows="3" ng-model="ctrl.postFormData.content" placeholder="Content">{{ctrl.postFormData.content}}</textarea>
+          <textarea rows="6" ng-model="ctrl.postFormData.content" placeholder="Content">{{ctrl.postFormData.content}}</textarea>
           <input ng-model="ctrl.postFormData.author" type="text" placeholder="Author" value="ctrl.postFormData.author">
+          <select ng-model="ctrl.postFormData.political_affiliation">
+            <option ng-repeat="x in ctrl.affiliation" value="{{x}}">{{x}}</option>
+            </select>
+          <br/>
           <button ng-click="ctrl.createPost()" ng-hide="ctrl.editPostMode">Create New Post</button>
           <button ng-click="ctrl.updatePost(ctrl.postInd)" ng-show="ctrl.editPostMode">Update Post</button>
           <button ng-click="ctrl.cancelEditPost()" ng-show="ctrl.editPostMode">Cancel</button>
-          </form>
-        </div>
+        </form>
 
+      </div>
+    </div>
 
-        <!--  All Posts div -->
-        <div ng-repeat="post in ctrl.posts" class="posts col-sm-6 col-md-8">
-          <h3 ng-click="ctrl.showPostComments(post.id, $index)" class="editLink">{{post.title}}</h3>
-          <!-- <p>{{post.content}}</p> -->
-          <small>By {{post.author}}</small>
-          <button ng-click="ctrl.editPost($index)">Edit</button>
-        </div>
-      </section>
-
-      <!-- View one post and its Comments.  -->
-      <!-- Delete the post and its Comments.  -->
-      <!-- Delete particular Comments.  -->
-      <section ng-show="ctrl.viewOnePost">
-        <!-- Post part -->
-        <div class="">
+    <!-- ************ -->
+    <!-- Part II -->
+    <!-- ************ -->
+    <!-- View one post and its Comments.  -->
+    <!-- Delete the post and its Comments.  -->
+    <!-- Delete particular Comments.  -->
+    <div ng-show="ctrl.viewOnePost" class="row">
+      <!-- Post part -->
+      <div class="posts col-sm-12 onePost {{ctrl.viewPost.political_affiliation_c}}">
           <h3>{{ctrl.viewPost.title}}</h3>
           <p>{{ctrl.viewPost.content}}</p>
-          <small>By {{ctrl.viewPost.author}}</small>
-          <button ng-click="ctrl.deletePost(ctrl.currentPostInd)">DELETE</button> * Will delete all comments too.
+          <p>By {{ctrl.viewPost.author}}</p>
+        <br/>
+        <button ng-click="ctrl.deletePost(ctrl.currentPostInd)">DELETE</button> * Delete a Post will delete all the comments too.
+      </div>
+      <!-- Comments part -->
+      <div ng-repeat="comment in ctrl.postComments" class="posts single-post col-sm-12 {{comment.political_affiliation_c}}" >
+        <p>{{comment.text}}<br/>
+        - By {{comment.author}}</p>
+        <button ng-click="ctrl.deleteComment($index)">Delete</button>
+      </div>
+    </div>
 
+    <!-- ************ -->
+    <!-- Part III -->
+    <!-- ************ -->
+    <!-- Daily Topics Form -->
+    <div id="dailyTopic" class="posts col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="ctrl.dailyTopicMode">
+        <h3>Daily Topic</h3>
+        <form ng-submit="ctrl.createNewTopic()">
+          <input type="text" ng-model="ctrl.dailyTopicContent.content" placeholder="Daily Topic" class="longField">
+          <input type="submit" value="New Topic">
+        </form>
+
+        <br/>
+        <div ng-repeat="topic in ctrl.dailyTopics" class="posts">
+          <p><span ng-bind="topic.updated_at | date:'MM/dd/yyyy'">{{topic.updated_at}}</span> - {{topic.content}}</p>
         </div>
-        <!-- Comments part -->
-        <div ng-repeat="comment in ctrl.postComments" class="row">
-          <p>{{comment.text}}</p>
-          <small>By {{comment.author}}</small>
-          <button ng-click="ctrl.deleteComment($index)">Delete</button>
-        </div>
-      </section>
 
-      <!-- Daily Topics Form -->
-      <section>
+    </div>
 
-      </section>
+  </div>
+  <!-- End of major display div after loggedIn -->
 
+  </div>
+  <!-- End of Main div -->
 
-
-    </main>
-
-    <footer>
-
-    </footer>
+  <!-- footer div -->
+  <div>
+      <!-- <p>WDIR-Hopper Unit 4 Project</p> -->
+  </div>
 
   </body>
 </html>
