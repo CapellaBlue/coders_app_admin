@@ -39,6 +39,10 @@
       Username <input type="text" placeholder="USERNAME">
       Password <input type="text" placeholder="PASSWORD">
       <button type="button" ng-click="ctrl.getAllPosts()">Login</button>
+
+        <br/><br/><br/><br/>
+      <img src="https://i0.wp.com/cdn1.theodysseyonline.com/files/2015/12/07/635850606002585241-664067526_political-logos.jpg" alt="">
+
     </div>
 
     <!-- major display div after login -->
@@ -56,7 +60,7 @@
         <!--  Repeat show all Posts div -->
         <div ng-repeat="post in ctrl.posts" class="{{post.political_affiliation_c}} single-post">
           <h3 ng-click="ctrl.showPostComments(post.id, $index)" class="editLink">{{post.title}}
-           - <small>By {{post.author}}</small></h3>
+           - <small class="author">By {{post.author}}</small></h3>
           <button ng-click="ctrl.editPost($index)">Edit</button>
           <!-- <p>{{post.content}}</p> -->
         </div>
@@ -89,12 +93,15 @@
     <!-- Delete particular Comments.  -->
     <div ng-show="ctrl.viewOnePost" class="row">
       <!-- Post part -->
-      <div class="posts col-sm-12 onePost {{ctrl.viewPost.political_affiliation_c}}">
+      <div class="onePost post col-sm-12 {{ctrl.viewPost.political_affiliation_c}}">
           <h3>{{ctrl.viewPost.title}}</h3>
-          <p>{{ctrl.viewPost.content}}</p>
+          <p>{{ctrl.viewPost.content}}</p><br/>
           <p>By {{ctrl.viewPost.author}}</p>
-        <br/>
-        <button ng-click="ctrl.deletePost(ctrl.currentPostInd)">DELETE</button> * Delete a Post will delete all the comments too.
+      </div>
+      <div class="post col-sm-12">
+        <button ng-click="ctrl.viewAllPosts()">Back</button>
+        <button ng-click="ctrl.deletePost(ctrl.currentPostInd)">DELETE</button> <span class="warning">* Delete a Post will delete all the comments too.</span>
+        <br/><br/>
       </div>
       <!-- Comments part -->
       <div ng-repeat="comment in ctrl.postComments" class="posts single-post col-sm-12 {{comment.political_affiliation_c}}" >
@@ -127,10 +134,10 @@
 
   </div>
   <!-- End of Main div -->
-
+  <br/><br/>
   <!-- footer div -->
-  <div>
-      <!-- <p>WDIR-Hopper Unit 4 Project</p> -->
+  <div id="footer">
+      <p>WDIR-Hopper Unit 4 Project</p>
   </div>
 
   </body>

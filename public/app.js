@@ -1,6 +1,8 @@
 console.log("Admin app app.js");
 
 var app = angular.module('boardAdmin', []);
+var herokuURL= "https://typepolitik99.herokuapp.com/";
+var localURL = "http://localhost:3000/";
 
 app.controller('mainController', ['$http', function($http){
   //this.message = "angular works!";
@@ -27,7 +29,8 @@ app.controller('mainController', ['$http', function($http){
         headers: {
           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
-        url: 'http://localhost:3000/posts'
+        // url: 'http://localhost:3000/posts'
+        url : herokuURL+'posts'
     }).then(function(response){
         //console.log(response.data);
         for (var i = 0; i < response.data.length; i++) {
@@ -49,7 +52,8 @@ app.controller('mainController', ['$http', function($http){
         headers: {
           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
-        url: 'http://localhost:3000/posts/'+post_id
+        // url: 'http://localhost:3000/posts/'+post_id
+        url : herokuURL+'posts/'+post_id
     }).then(function(response){
       console.log("View Post Comments: ",response.data.comments);
       for (var i = 0; i < response.data.comments.length; i++) {
@@ -67,7 +71,8 @@ app.controller('mainController', ['$http', function($http){
     console.log("inside createPost: ", this.postFormData);
     $http({
       method: 'POST',
-      url: 'http://localhost:3000/posts',
+      // url: 'http://localhost:3000/posts',
+      url : herokuURL+'posts',
       data: this.postFormData
     }).then(function(result){
       console.log('Data from server: ', result.data);
@@ -100,7 +105,8 @@ app.controller('mainController', ['$http', function($http){
     console.log("inside Update Post: ", this.postFormData);
     $http({
       method: 'PUT',
-      url: 'http://localhost:3000/posts/'+tempId,
+      // url: 'http://localhost:3000/posts/'+tempId,
+      url : herokuURL+'posts/'+tempId,
       data: this.postFormData
     }).then(function(result){
       console.log('Post updated from server: ', result.data);
@@ -117,7 +123,8 @@ app.controller('mainController', ['$http', function($http){
     var tempId = this.posts[ind].id;
     $http({
       method: 'DELETE',
-      url: 'http://localhost:3000/posts/'+tempId
+      // url: 'http://localhost:3000/posts/'+tempId
+      url : herokuURL+'posts/'+tempId
     }).then(function(){
       this.posts.splice(ind,1);
       this.viewAllPosts();
@@ -129,7 +136,8 @@ app.controller('mainController', ['$http', function($http){
     var tempId = this.postComments[ind].id;
     $http({
       method: 'DELETE',
-      url: 'http://localhost:3000/comments/'+tempId
+      // url: 'http://localhost:3000/comments/'+tempId
+      url : herokuURL+'comments/'+tempId
     }).then(function(){
       this.postComments.splice(ind,1);
     }.bind(this));
@@ -143,7 +151,8 @@ app.controller('mainController', ['$http', function($http){
       headers: {
         "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
       },
-      url: 'http://localhost:3000/daily_topics'
+      // url: 'http://localhost:3000/daily_topics'
+      url : herokuURL+'daily_topics'
     }).then(function(response){
         console.log(response.data);
         this.dailyTopics = response.data;
@@ -153,7 +162,8 @@ app.controller('mainController', ['$http', function($http){
       console.log(this.dailyTopicContent);
       $http({
         method: 'POST',
-        url: 'http://localhost:3000/daily_topics',
+        // url: 'http://localhost:3000/daily_topics',
+        url : herokuURL+'daily_topics',
         data: this.dailyTopicContent
       }).then(function(result){
         console.log('Data from server: ', result.data);
