@@ -1,11 +1,16 @@
 console.log("Admin app app.js");
 
 var app = angular.module('boardAdmin', []);
+var herokuURL= "https://typepolitik99.herokuapp.com/";
+var localURL = "http://localhost:3000/";
 
 app.controller('mainController', ['$http', function($http){
   //this.message = "angular works!";
   this.loggedIn = false;
+  this.returnedPosts = [];
   this.posts = [];
+  this.filteredPosts = [];
+  this.searchPost = {};
   this.postFormData = {};
   this.postInd = -1;
   this.viewOnePost = false;
@@ -17,6 +22,7 @@ app.controller('mainController', ['$http', function($http){
   this.dailyTopics = [];
   this.dailyTopicContent = {};
   this.affiliation = ["Hard Right", "Soft Right", "Centrist", "Soft Left", "Hard Left", "Independent"];
+  this.editTopicMode = false;
 
   // GET All Posts
   this.getAllPosts = function(){
@@ -27,7 +33,8 @@ app.controller('mainController', ['$http', function($http){
         headers: {
           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
-        url: 'http://localhost:3000/posts'
+        // url: 'http://localhost:3000/posts'
+        url : herokuURL+'posts'
     }).then(function(response){
         //console.log(response.data);
         for (var i = 0; i < response.data.length; i++) {
@@ -35,6 +42,7 @@ app.controller('mainController', ['$http', function($http){
 
           response.data[i].political_affiliation_c = this.assignPolAff(aff) ;
         }
+        this.returnedPosts = response.data;
         this.posts = response.data;
         console.log("All posts: ",this.posts);
     }.bind(this));
@@ -49,7 +57,8 @@ app.controller('mainController', ['$http', function($http){
         headers: {
           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
-        url: 'http://localhost:3000/posts/'+post_id
+        // url: 'http://localhost:3000/posts/'+post_id
+        url : herokuURL+'posts/'+post_id
     }).then(function(response){
       console.log("View Post Comments: ",response.data.comments);
       for (var i = 0; i < response.data.comments.length; i++) {
@@ -64,10 +73,12 @@ app.controller('mainController', ['$http', function($http){
 
   // Create A Post
   this.createPost = function(){
+    this.posts = this.returnedPosts;
     console.log("inside createPost: ", this.postFormData);
     $http({
       method: 'POST',
-      url: 'http://localhost:3000/posts',
+      // url: 'http://localhost:3000/posts',
+      url : herokuURL+'posts',
       data: this.postFormData
     }).then(function(result){
       console.log('Data from server: ', result.data);
@@ -76,6 +87,38 @@ app.controller('mainController', ['$http', function($http){
       this.postFormData = {};
       this.posts.unshift(result.data);
     }.bind(this));
+  }
+
+  // Search posts
+  this.searchPosts = function(){
+    this.posts = this.returnedPosts;
+    this.filteredPosts = this.posts;
+    //console.log("Search Post: ", this.postFormData);
+    if (this.postFormData.title != undefined) {
+      this.filteredPosts = this.filteredPosts.filter(function(obj){
+       return (obj.title.toLowerCase().includes(this.postFormData.title.toLowerCase())) ;
+      }.bind(this));
+    }
+    //console.log(this.filteredPosts);
+    if (this.postFormData.content != undefined){
+      this.filteredPosts = this.filteredPosts.filter(function(obj){
+        return obj.content.toLowerCase().includes(this.postFormData.content.toLowerCase());
+      }.bind(this));
+    }
+    //console.log(this.filteredPosts);
+    if (this.postFormData.author != undefined){
+      this.filteredPosts = this.filteredPosts.filter(function(obj){
+        return obj.author.toLowerCase().includes(this.postFormData.author.toLowerCase());
+      }.bind(this));
+    }
+    //console.log(this.filteredPosts);
+    if (this.postFormData.political_affiliation != undefined){
+      this.filteredPosts = this.filteredPosts.filter(function(obj){
+        return obj.political_affiliation == this.postFormData.political_affiliation;
+      }.bind(this));
+    }
+    this.posts = this.filteredPosts;
+    console.log(this.posts);
   }
 
   // Edit Post mode
@@ -100,7 +143,8 @@ app.controller('mainController', ['$http', function($http){
     console.log("inside Update Post: ", this.postFormData);
     $http({
       method: 'PUT',
-      url: 'http://localhost:3000/posts/'+tempId,
+      // url: 'http://localhost:3000/posts/'+tempId,
+      url : herokuURL+'posts/'+tempId,
       data: this.postFormData
     }).then(function(result){
       console.log('Post updated from server: ', result.data);
@@ -117,7 +161,8 @@ app.controller('mainController', ['$http', function($http){
     var tempId = this.posts[ind].id;
     $http({
       method: 'DELETE',
-      url: 'http://localhost:3000/posts/'+tempId
+      // url: 'http://localhost:3000/posts/'+tempId
+      url : herokuURL+'posts/'+tempId
     }).then(function(){
       this.posts.splice(ind,1);
       this.viewAllPosts();
@@ -129,41 +174,93 @@ app.controller('mainController', ['$http', function($http){
     var tempId = this.postComments[ind].id;
     $http({
       method: 'DELETE',
-      url: 'http://localhost:3000/comments/'+tempId
+      // url: 'http://localhost:3000/comments/'+tempId
+      url : herokuURL+'comments/'+tempId
     }).then(function(){
       this.postComments.splice(ind,1);
     }.bind(this));
   }
 
+  // Daily Topic page, show all daily topics
   this.toDailyTopic = function(){
     this.dailyTopicMode = true;
     this.viewOnePost = false;
+    this.dailyTopicContent = {};
+    this.editTopicMode = false;
     $http({
       method: 'GET',
       headers: {
         "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
       },
-      url: 'http://localhost:3000/daily_topics'
+      // url: 'http://localhost:3000/daily_topics'
+      url : herokuURL+'daily_topics'
     }).then(function(response){
         console.log(response.data);
         this.dailyTopics = response.data;
     }.bind(this));
+  }
 
-    this.createNewTopic = function(){
-      console.log(this.dailyTopicContent);
-      $http({
+  // create new daily topics
+  this.createNewTopic = function(){
+    console.log(this.dailyTopicContent);
+    $http({
         method: 'POST',
-        url: 'http://localhost:3000/daily_topics',
+        // url: 'http://localhost:3000/daily_topics',
+        url : herokuURL+'daily_topics',
         data: this.dailyTopicContent
-      }).then(function(result){
+    }).then(function(result){
         console.log('Data from server: ', result.data);
         this.dailyTopicContent = {};
         this.dailyTopics.unshift(result.data);
-      }.bind(this));
-    };
+    }.bind(this));
+  };
 
+  // delete a daily topic
+  this.deleteDailyTopic = function(ind){
+    var tempId = this.dailyTopics[ind].id;
+    $http({
+      method: 'DELETE',
+      // url: 'http://localhost:3000/daily_topics/'+tempId
+      url : herokuURL+'daily_topics/'+tempId
+    }).then(function(){
+      this.dailyTopics.splice(ind,1);
+    }.bind(this));
   }
 
+  // edit daily topic
+  this.editDailyTopic = function(ind){
+    this.editTopicMode = true;
+    this.dailyTopicContent.content = this.dailyTopics[ind].content;
+    this.currentTopicInd = ind;
+  }
+
+  // update daily topic in DB
+  this.updateTopic = function(ind){
+    var tempId = this.dailyTopics[ind].id;
+    $http({
+      method: 'PUT',
+      // url: 'http://localhost:3000/posts/'+tempId,
+      url : herokuURL+'daily_topics/'+tempId,
+      data: this.dailyTopicContent
+    }).then(function(result){
+      this.editTopicMode = false;
+      this.dailyTopicContent = {};
+      this.dailyTopics.splice(ind, 1, result.data);
+    }.bind(this));
+  }
+
+  // clear Topic input form
+  this.clearTopicInput = function(){
+    this.dailyTopicContent = {};
+  }
+
+  // Cancel Edit Daily Topic mode
+  this.cancelEditTopic = function(){
+    this.dailyTopicContent = {};
+    this.editTopicMode = false;
+  }
+
+  // assign political affiliation color
   this.assignPolAff = function(aff){
     if(aff == "Hard Right"){
       return "hard-right";
@@ -180,8 +277,20 @@ app.controller('mainController', ['$http', function($http){
     };
   }
 
-  // Back to view all posts
+  // View all Posts
   this.viewAllPosts = function(){
+    this.posts = this.returnedPosts;
+    this.filteredPosts = [];
+    this.postFormData = {};
+    this.postInd = -1;
+    this.viewOnePost = false;
+    this.currentPostInd = -1;
+    this.editPostMode = false;
+    this.dailyTopicMode = false
+  }
+  // Back to view posts
+  this.backViewPosts = function(){
+    // this.filteredPosts = [];
     this.postFormData = {};
     this.postInd = -1;
     this.viewOnePost = false;
@@ -193,6 +302,9 @@ app.controller('mainController', ['$http', function($http){
   // Fake Log off
   this.logOff = function(){
     this.loggedIn = false;
+    this.returnedPosts = [];
+    this.posts = [];
+    this.filteredPosts = [];
     this.postFormData = {};
     this.postInd = -1;
     this.viewOnePost = false;
@@ -203,5 +315,7 @@ app.controller('mainController', ['$http', function($http){
     this.dailyTopicMode = false
     this.dailyTopics = [];
     this.dailyTopicContent = {};
+    this.editTopicMode = false;
+
   }
 }]);
