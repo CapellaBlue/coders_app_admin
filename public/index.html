@@ -78,9 +78,23 @@
             </select>
           <br/>
           <button ng-click="ctrl.createPost()" ng-hide="ctrl.editPostMode">Create New Post</button>
+          <button ng-click="ctrl.searchPosts()" ng-hide="ctrl.editPostMode">Search Post</button>
           <button ng-click="ctrl.updatePost(ctrl.postInd)" ng-show="ctrl.editPostMode">Update Post</button>
           <button ng-click="ctrl.cancelEditPost()" ng-show="ctrl.editPostMode">Cancel</button>
         </form>
+        <br/>
+        <div class="hard-right legend">
+        </div><p class="afterLegend">Hard Right<p>
+        <div class="soft-right legend">
+        </div><p class="afterLegend">Soft Right</p>
+        <div class="centrist legend">
+        </div><p class="afterLegend">Centrist</p>
+        <div class="soft-left legend">
+        </div><p class="afterLegend">Soft Left</p>
+        <div class="hard-left legend">
+        </div><p class="afterLegend">Hard Left</p>
+        <div class="independent legend">
+        </div><p class="afterLegend">Independent</p>
 
       </div>
     </div>
@@ -99,7 +113,7 @@
           <p>By {{ctrl.viewPost.author}}</p>
       </div>
       <div class="post col-sm-12">
-        <button ng-click="ctrl.viewAllPosts()">Back</button>
+        <button ng-click="ctrl.backViewPosts()">Back</button>
         <button ng-click="ctrl.deletePost(ctrl.currentPostInd)">DELETE</button> <span class="warning">* Delete a Post will delete all the comments too.</span>
         <br/><br/>
       </div>
@@ -117,14 +131,22 @@
     <!-- Daily Topics Form -->
     <div id="dailyTopic" class="posts col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="ctrl.dailyTopicMode">
         <h3>Daily Topic</h3>
-        <form ng-submit="ctrl.createNewTopic()">
-          <input type="text" ng-model="ctrl.dailyTopicContent.content" placeholder="Daily Topic" class="longField">
-          <input type="submit" value="New Topic">
+        <form>
+          <input type="text" ng-model="ctrl.dailyTopicContent.content" placeholder="Daily Topic" class="longField" value="ctrl.dailyTopicContent.content">
+          <button  ng-hide="ctrl.editTopicMode" ng-click="ctrl.createNewTopic()">New Tospic</button>
+          <button ng-hide="ctrl.editTopicMode" ng-click="ctrl.clearTopicInput()">Clear Form</button>
+          <button  ng-show="ctrl.editTopicMode" ng-click="ctrl.updateTopic(ctrl.currentTopicInd)">Update</button>
+          <button ng-show="ctrl.editTopicMode" ng-click="ctrl.cancelEditTopic()">Cancel</button>
+
+
         </form>
 
         <br/>
-        <div ng-repeat="topic in ctrl.dailyTopics" class="posts">
+        <div ng-repeat="topic in ctrl.dailyTopics" class="posts displayDailyTopic">
+          <button ng-click="ctrl.editDailyTopic($index)">Edit</button>
+          <button ng-click="ctrl.deleteDailyTopic($index)">Delete</button>
           <p><span ng-bind="topic.updated_at | date:'MM/dd/yyyy'">{{topic.updated_at}}</span> - {{topic.content}}</p>
+
         </div>
 
     </div>
@@ -139,6 +161,5 @@
   <div id="footer">
       <p>WDIR-Hopper Unit 4 Project</p>
   </div>
-
   </body>
 </html>

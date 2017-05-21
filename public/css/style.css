@@ -8,7 +8,11 @@ body {
 }
 
 #header {
-  background: #171837;
+  background-color: #171837;
+  background: linear-gradient(30deg,#171837 0%, #171837 30%, #2628c0 50%, #171837 70%, #171837 100%);
+  background: -moz-linear-gradient(30deg,#171837 0%, #171837 30%, #2628c0 50%, #171837 70%, #171837 100%);
+  background: -webkit-linear-gradient(30deg,#171837 0%, #171837 30%, #2628c0 50%, #171837 70%, #171837 100%);
+  background: -o-linear-gradient(30deg,#171837 0%, #171837 30%, #2628c0 50%, #171837 70%, #171837 100%);
   width: 100%;
   padding: 0 2em;
   color: #00ccff;
@@ -95,8 +99,17 @@ main {
   cursor: pointer;
 }
 
+.legend {
+  width: 1.5em;
+  height: 1.5em;
+  float: left;
+}
+.afterLegend {
+  text-indent: 1em;
+}
+
 .longField {
-  width: 600px;
+  width: 70%;
 }
 
 .form-horizontal {
@@ -109,6 +122,7 @@ main {
 
 button {
   border-radius: 8px;
+  margin: 5px;
 }
 .author {
   color: black;
@@ -118,12 +132,21 @@ button {
 }
 
 #footer {
-  background: #371718;
+  /*background: #371718;*/
+  background-color: #6c2d2f;
+  background: linear-gradient(30deg,#bb5d60 0%, #6c2d2f 30%, #6c2d2f 50%, #6c2d2f 70%, #bb5d60 100%);
   text-align: center;
   color: #00ccff;
-  height: 2em;
-  padding-top: 5px;
+  height: 2.5em;
+  padding-top: .5em;
   position: fixed;
   width: 100%;
   bottom: 0;
+}
+.displayDailyTopic {
+  display: flex;
+  align-items: center;
+}
+.displayDailyTopic p {
+  padding-top: 8px;
 }
