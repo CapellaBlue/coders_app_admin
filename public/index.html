@@ -77,7 +77,7 @@
             <option ng-repeat="x in ctrl.affiliation" value="{{x}}">{{x}}</option>
             </select>
           <br/>
-          <button ng-click="ctrl.createPost()" ng-hide="ctrl.editPostMode">Create New Post</button>
+          <button ng-click="ctrl.createPost()" ng-hide="ctrl.editPostMode">New Post</button>
           <button ng-click="ctrl.searchPosts()" ng-hide="ctrl.editPostMode">Search Post</button>
           <button ng-click="ctrl.updatePost(ctrl.postInd)" ng-show="ctrl.editPostMode">Update Post</button>
           <button ng-click="ctrl.cancelEditPost()" ng-show="ctrl.editPostMode">Cancel</button>
@@ -133,7 +133,7 @@
         <h3>Daily Topic</h3>
         <form>
           <input type="text" ng-model="ctrl.dailyTopicContent.content" placeholder="Daily Topic" class="longField" value="ctrl.dailyTopicContent.content">
-          <button  ng-hide="ctrl.editTopicMode" ng-click="ctrl.createNewTopic()">New Tospic</button>
+          <button  ng-hide="ctrl.editTopicMode" ng-click="ctrl.createNewTopic()">New Topic</button>
           <button ng-hide="ctrl.editTopicMode" ng-click="ctrl.clearTopicInput()">Clear Form</button>
           <button  ng-show="ctrl.editTopicMode" ng-click="ctrl.updateTopic(ctrl.currentTopicInd)">Update</button>
           <button ng-show="ctrl.editTopicMode" ng-click="ctrl.cancelEditTopic()">Cancel</button>
