@@ -146,7 +146,8 @@ button {
     background: #D27E87;
 }
 .hard-left {
-    background: #3C3B6E;
+    /*background: #3C3B6E;*/
+    background: #003399
 }
 .centrist {
     background: #785d90;
