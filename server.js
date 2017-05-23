@@ -1,7 +1,7 @@
 var express = require('express');
 var app     = express();
-var port    = 3001;
-
+// var port    = 3001;
+port = process.env.PORT || 3001;
 //dont need routes, but we do need a static folder
 
 app.use(express.static('public'));
