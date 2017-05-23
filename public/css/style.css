@@ -57,6 +57,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: #A9B7C0;
 }
 
 .single-post > * {
@@ -65,7 +66,7 @@ main {
 }
 
 .onePost {
-  /*background: lightgray;*/
+  background: #A9B7C0;
   margin: 1em;
   padding: 5px 1em 10px 1em;
   color: black;
@@ -77,24 +78,6 @@ main {
   padding: 5px 1em 5px 1em;
 }
 
-.hard-right {
-    background: #B22234;
-}
-.soft-left {
-    background: #A9B7C0;
-}
-.soft-right {
-    background: #D27E87;
-}
-.hard-left {
-    background: #3C3B6E;
-}
-.centrist {
-    background: #785d90;
-}
-.independent {
-    background: #9c8914;
-}
 .single-post > h3:hover {
   cursor: pointer;
 }
@@ -103,6 +86,7 @@ main {
   width: 1.5em;
   height: 1.5em;
   float: left;
+  background: #A9B7C0;
 }
 .afterLegend {
   text-indent: 1em;
@@ -149,4 +133,25 @@ button {
 }
 .displayDailyTopic p {
   padding-top: 8px;
+}
+
+.hard-right {
+    background: #B22234;
+}
+.soft-left {
+    /*background: #A9B7C0;*/
+    background: #337AB7;
+}
+.soft-right {
+    background: #D27E87;
+}
+.hard-left {
+    background: #3C3B6E;
+}
+.centrist {
+    /*background: #785d90;*/
+    background: #653776;
+}
+.independent {
+    background: #9c8914;
 }

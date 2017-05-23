@@ -1,8 +1,8 @@
 console.log("Admin app app.js");
 
 var app = angular.module('boardAdmin', []);
-var herokuURL= "https://typepolitik99.herokuapp.com/";
-var localURL = "http://localhost:3000/";
+var appURL= "https://typepolitik99.herokuapp.com/";
+//var appURL = "http://localhost:3000/";
 
 app.controller('mainController', ['$http', function($http){
   //this.message = "angular works!";
@@ -34,7 +34,7 @@ app.controller('mainController', ['$http', function($http){
           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
         // url: 'http://localhost:3000/posts'
-        url : herokuURL+'posts'
+        url : appURL+'posts'
     }).then(function(response){
         //console.log(response.data);
         for (var i = 0; i < response.data.length; i++) {
@@ -58,7 +58,7 @@ app.controller('mainController', ['$http', function($http){
           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
         // url: 'http://localhost:3000/posts/'+post_id
-        url : herokuURL+'posts/'+post_id
+        url : appURL+'posts/'+post_id
     }).then(function(response){
       console.log("View Post Comments: ",response.data.comments);
       for (var i = 0; i < response.data.comments.length; i++) {
@@ -78,7 +78,7 @@ app.controller('mainController', ['$http', function($http){
     $http({
       method: 'POST',
       // url: 'http://localhost:3000/posts',
-      url : herokuURL+'posts',
+      url : appURL+'posts',
       data: this.postFormData
     }).then(function(result){
       console.log('Data from server: ', result.data);
@@ -144,7 +144,7 @@ app.controller('mainController', ['$http', function($http){
     $http({
       method: 'PUT',
       // url: 'http://localhost:3000/posts/'+tempId,
-      url : herokuURL+'posts/'+tempId,
+      url : appURL+'posts/'+tempId,
       data: this.postFormData
     }).then(function(result){
       console.log('Post updated from server: ', result.data);
@@ -162,7 +162,7 @@ app.controller('mainController', ['$http', function($http){
     $http({
       method: 'DELETE',
       // url: 'http://localhost:3000/posts/'+tempId
-      url : herokuURL+'posts/'+tempId
+      url : appURL+'posts/'+tempId
     }).then(function(){
       this.posts.splice(ind,1);
       this.viewAllPosts();
@@ -175,7 +175,7 @@ app.controller('mainController', ['$http', function($http){
     $http({
       method: 'DELETE',
       // url: 'http://localhost:3000/comments/'+tempId
-      url : herokuURL+'comments/'+tempId
+      url : appURL+'comments/'+tempId
     }).then(function(){
       this.postComments.splice(ind,1);
     }.bind(this));
@@ -193,7 +193,7 @@ app.controller('mainController', ['$http', function($http){
         "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
       },
       // url: 'http://localhost:3000/daily_topics'
-      url : herokuURL+'daily_topics'
+      url : appURL+'daily_topics'
     }).then(function(response){
         console.log(response.data);
         this.dailyTopics = response.data;
@@ -206,7 +206,7 @@ app.controller('mainController', ['$http', function($http){
     $http({
         method: 'POST',
         // url: 'http://localhost:3000/daily_topics',
-        url : herokuURL+'daily_topics',
+        url : appURL+'daily_topics',
         data: this.dailyTopicContent
     }).then(function(result){
         console.log('Data from server: ', result.data);
@@ -221,7 +221,7 @@ app.controller('mainController', ['$http', function($http){
     $http({
       method: 'DELETE',
       // url: 'http://localhost:3000/daily_topics/'+tempId
-      url : herokuURL+'daily_topics/'+tempId
+      url : appURL+'daily_topics/'+tempId
     }).then(function(){
       this.dailyTopics.splice(ind,1);
     }.bind(this));
@@ -240,7 +240,7 @@ app.controller('mainController', ['$http', function($http){
     $http({
       method: 'PUT',
       // url: 'http://localhost:3000/posts/'+tempId,
-      url : herokuURL+'daily_topics/'+tempId,
+      url : appURL+'daily_topics/'+tempId,
       data: this.dailyTopicContent
     }).then(function(result){
       this.editTopicMode = false;
