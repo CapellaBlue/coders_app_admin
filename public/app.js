@@ -74,6 +74,13 @@ app.controller('mainController', ['$http', function($http){
   // Create A Post
   this.createPost = function(){
     this.posts = this.returnedPosts;
+    this.postFormdata.likes = 0;
+    this.postFormdata.hardRightLikes = 0;
+    this.postFormdata.softRightLikes = 0;
+    this.postFormdata.centristLikes = 0;
+    this.postFormdata.softLeftLikes = 0;
+    this.postFormdata.hardLeftLikes = 0;
+    this.postFormdata.independentlikes = 0;
     console.log("inside createPost: ", this.postFormData);
     $http({
       method: 'POST',
